@@ -1,0 +1,19 @@
+SELECT AVG (total_amount_paid) AS "Average_Amount_Paid"
+FROM
+(SELECT A.customer_id AS "Customer_ID",
+B.first_name AS "Customer_First_Name",
+B.last_name AS "Customer_Last_Name",
+E.country AS "County",
+D.city AS "City",
+SUM(A.amount) AS "total_amount_paid"
+FROM payment A
+INNER JOIN customer B on A.customer_id=B.customer_id
+INNER JOIN address C on B. address_id=C.address_id
+INNER JOIN city D ON C.city_id=D.city_id
+INNER JOIN country E ON D.country_id=E.country_id
+WHERE city IN
+('Aurora', 'Acua', 'Adana', 'Citrus Heights', 'Iwaki', 'Ambattur', 'Shanwei', 'So Leopoldo',
+'Teboksary', 'Tianjin', 'Cianjur')
+GROUP BY A.customer_id, first_name, last_name, country, city, amount
+ORDER BY total_amount_paid DESC
+LIMIT 5) AS average
